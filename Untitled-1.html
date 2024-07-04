@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EZJ Music</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="icon" href="Favicon.svg" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+  </head>
+<body>
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">
+  <div div id="myNav" class="overlaymessage">
+    <div class="video-box">
+      <video autoplay loop muted>
+          <source src="Untitled (6).mp4" type="video/mp4">
+          Your browser does not support the video tag.
+      </video>
+  </div>
+  </div> 
+</a> 
+  <div class="container">
+    <div class="columns">
+        <aside class="left-column" id="leftColumn">
+          <div class="top-row">
+            <label for="toggleSlider" class="clickable">
+              <div class="label song-label" id="songLabel">Song</div>
+            </label>
+            <label for="toggleSlider" class="clickable">
+              <div class="label music-label" id="musicLabel">Music</div>
+            </label>
+            <label class="switch">
+              <input type="checkbox" id="toggleSlider">
+              <span class="slider" id="customSlider"></span>
+            </label>
+          </div>
+          <div class="middle-row">
+            <div class="icon-container home-icon-container">
+                <a href="#" style="display: flex;align-items: center;">
+                    <img src="https://img.icons8.com/fluency-systems-filled/200/FFFFFF/home.png" alt="Home">
+                    <span class="icon-text">Home</span>
+                </a>
+            </div>
+            <div class="icon-container ezj-services-icon-container">
+              <a href="#services" style="display: flex;align-items: center;">
+                <img src="https://img.icons8.com/ios-filled/512/FFFFFF/menu--v6.png" alt="EZJ Services">
+                    <span class="icon-text">EZJM Services</span>
+                </a>
+            </div>
+        </div> 
+          <div class="bottom-row">
+            <div class="icon-background">
+              <div class="icon-container" onclick="toggleLeftColumn()">
+                <img width="50" height="50" src="image (4).png" alt="Library" />
+                <span class="icon-text">Library</span>
+              </div>
+            </div>
+            <div class="repeater-container-sidebar">
+            </div>
+          </div>
+          <div id="image-row"></div>
+        </aside>
+
+        <div id="myNav1" class="overlay1">
+          <a href="javascript:void(0)" class="closebtn" onclick="closeNav1()">&times;</a>
+          <aside class="left-column1" id="leftColumn1">
+            <div class="top-row1">
+              <label for="toggleSlider" class="clickable">
+                <div class="label song-label" id="songLabel">Song</div>
+              </label>
+              <label for="toggleSlider" class="clickable">
+                <div class="label music-label" id="musicLabel">Music</div>
+              </label>
+              <label class="switch">
+                <input type="checkbox" id="toggleSlider">
+                <span class="slider" id="customSlider"></span>
+              </label>
+            </div>
+            <div class="middle-row1">
+              <div class="icon-container1 home-icon-container">
+                  <a href="#" style="display: flex;align-items: center;">
+                      <img src="https://img.icons8.com/fluency-systems-filled/200/FFFFFF/home.png" alt="Home">
+                      <span class="icon-text">Home</span>
+                  </a>
+              </div>
+              <div class="icon-container1 ezj-services-icon-container">
+                <a href="#services" style="display: flex;align-items: center;">
+                  <img src="https://img.icons8.com/ios-filled/512/FFFFFF/menu--v6.png" alt="EZJ Services">
+                      <span class="icon-text">EZJM Services</span>
+                  </a>
+              </div>
+          </div> 
+            <div class="bottom-row1">
+              <div class="icon-background1">
+                <div class="icon-container1" onclick="toggleLeftColumn()">
+                  <img width="50" height="50" src="image (4).png" alt="Library" />
+                  <span class="icon-text">Library</span>
+                </div>
+              </div>
+              <div class="repeater-container-sidebar1">
+              </div>
+            </div>
+            <div id="image-row"></div>
+        </div>
+        <div class="separator"></div>
+      <div class="right-column">
+        <header>
+          <div class="Sidebar-button" onclick="openNav1()">
+          <img width="38" height="38" src="icons8-forward-100.png" alt="Sidebar"/>
+          </div>
+          <div class="search-bar-container">
+            <form class="search-form">
+              <div class="search-icon-container">
+                <img width="30" height="30" src="https://img.icons8.com/ios-glyphs/512/00008B/search--v1.png"
+                  alt="search" />
+              </div>
+              <input type="search" id="search-input" placeholder="Search" autocomplete="off">
+              <div class="voice-icon-container" id="voice-icon-container">
+                <img width="30" height="25" src="https://img.icons8.com/ios-glyphs/512/00008B/microphone.png"
+                  alt="microphone"/>
+              </div>
+            </form>
+          </div>
+          <div id="dropdown-button">
+               <img width="30" height="30" src="https://img.icons8.com/fluency-systems-regular/512/00008B/user--v1.png"
+               alt="account" />
+          </div>
+          <div class="dropdown-content" id="dropdown-content">
+            <a href="#Account"><img class="dropdown" width="20" height="20" src="https://img.icons8.com/fluency-systems-regular/512/888888/user--v1.png">Account</a>
+            <a href="#Settings"><img class="dropdown" width="20" height="20" src="https://img.icons8.com/fluency-systems-regular/512/888888/settings--v2.png">Settings</a>
+            <a href="#Premium"><img class="dropdown" width="20" height="20" src="https://img.icons8.com/forma-regular/512/888888/christmas-star.png">Premium</a>
+            <a href="#Guest"><img class="dropdown" width="20" height="20" src="https://img.icons8.com/forma-regular/512/888888/export.png">Log Out</a>
+          </div>
+        </header>
+        <div class="fade"></div>
+    <div id="content" style="position: relative;">
+      <div id="home" class="page">
+        <div class="time-greeting">
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <title>Time of Day Greeting</title>
+            <style>
+              body {
+                font-family: Arial, sans-serif;
+                color: white;
+                margin: 0;
+                padding: 0;
+              }
+
+              h2 {
+                font-weight: bold;
+                font-size: 180%;
+                text-align: left;
+                margin-left: 15px;
+              }
+            </style>
+          </head>
+
+          <body>
+            <h2 id="greeting"></h2>
+
+            <script>
+              function getTimeOfDay() {
+                const now = new Date();
+                const hour = now.getHours();
+
+                if (hour >= 4 && hour < 12) {
+                  return "Good Morning";
+                } else if (hour >= 12 && hour < 18) {
+                  return "Good Afternoon";
+                } else {
+                  return "Good Evening";
+                }
+              }
+
+              document.getElementById("greeting").innerText = getTimeOfDay();
+            </script>
+          </body>
+          </html>
+        </div>
+        <div class="container-repeater">
+        </div>
+        <h3>Latest Songs</h3>
+        <div id="repeater-row" class="repeater-row">
+        </div> 
+        <h3>Music Videos</h3>
+        <div id="repeater-row-video" class="repeater-row-video">
+        </div>
+        <h3>Artists</h3>
+        <div id="repeater-row-artists" class="repeater-row-artists">
+        </div>
+        <h3>Music Streams</h3>
+        <div class="container-repeater-streams">
+        </div>
+        <h3></h3>
+      </div>
+      <div id="services" class="page">
+        <div class="container-repeater-services">
+        </div>
+      </div>
+      <div id="streams/chasuna-kumzits" class="page">
+        <div id="album-container">
+          <div id="container-streams">
+            <img id="album-cover" src="Chasunakumzits.png" alt="Album Cover">
+          </div>
+         <div id="album-text">
+            <h1 id="album-title">Chasuna Kumzits</h1>
+            <h2 id="artist-name">Yiddish 24</h2>
+         </div>
+       </div>     
+  </div>
+   <div id="streams/Chasuna-2nd-Dance" class="page">
+    <div id="album-container">
+      <div id="container-streams">
+        <img id="album-cover" src="Seconddance.png" alt="Album Cover">
+      </div>
+     <div id="album-text">
+        <h1 id="album-title">Chasuna 2nd Dance</h1>
+        <h2 id="artist-name">Yiddish 24</h2>
+     </div>
+    </div>     
+  </div>     
+  <div id="streams/Chasuna-Freilach" class="page">
+    <div id="album-container">
+      <div id="container-streams">
+        <img id="album-cover" src="chasunafreilach.png" alt="Album Cover">
+      </div>
+     <div id="album-text">
+        <h1 id="album-title">Chasuna Freilach</h1>
+        <h2 id="artist-name">Yiddish 24</h2>
+     </div>
+    </div>     
+  </div>     
+  <div id="streams/Geula-FM" class="page">
+    <div id="album-container">
+      <div id="container-streams">
+        <img id="album-cover" src=https://static.wixstatic.com/media/460038_dc1333e3f5854e28b29e471ce17a88b7~mv2.jpg/v1/fill/w_398,h_401,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/460038_dc1333e3f5854e28b29e471ce17a88b7~mv2.jpg" alt="Album Cover">
+      </div>
+     <div id="album-text">
+        <h1 id="album-title">Geula FM</h1>
+        <h2 id="artist-name">Geula FM</h2>
+     </div>
+    </div>     
+  </div>     
+  <div id="streams/Jewish-Music-Stream" class="page">
+    <div id="album-container">
+      <div id="container-streams">
+        <img id="album-cover" src="https://static.wixstatic.com/media/460038_06e17f096191422da6e4bed2c110fbf4~mv2.jpg/v1/fill/w_398,h_401,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/460038_06e17f096191422da6e4bed2c110fbf4~mv2.jpg" alt="Album Cover">
+      </div>
+     <div id="album-text">
+        <h1 id="album-title">Jewish Music Stream</h1>
+        <h2 id="artist-name">Jewish Music Stream</h2>
+     </div>
+   </div>     
+</div>
+   <div id="streams/Kol-Chai-Music" class="page">
+  <div id="album-container">
+    <div id="container-streams">
+      <img id="album-cover" src="https://static.wixstatic.com/media/460038_9b6cfe52c8234c82957551d53c8db278~mv2.png/v1/fill/w_398,h_401,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/460038_9b6cfe52c8234c82957551d53c8db278~mv2.png" alt="Album Cover">
+    </div>
+   <div id="album-text">
+      <h1 id="album-title">Kol Chai Music</h1>
+      <h2 id="artist-name">Radio Kol Chai</h2>
+   </div>
+ </div>    
+</div> 
+<div id="artists/avraham-fried" class="page">
+  <div id="album-container">
+    <div id="container-artists">
+      <img id="album-cover" src="https://yt3.googleusercontent.com/xo5Hx0SJ-v26Ku8HF2fLwNKGhE8vkRJVZXwTQi2phBfMNz84NP_WgEeNIBCHQXybCrYGMrZH=s900-c-k-c0x00ffffff-no-rj" alt="Album Cover">
+    </div>
+   <div id="album-text">
+      <h1 id="album-title">Avraham Fried</h1>
+      <h2 id="artist-name">Singer</h2>
+    </div>
+  </div>
+  <h3>Popular Songs</h3>
+  <div class="artistdata">
+  <div class="artist-repeater">
+  </div>
+  <div class="video-withtitle"> 
+    <h3 class="latest-video">Latest Video</h3>
+      <div class="video-container">
+        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/vohubVz4xc4" frameborder="0" style="border-radius: 10px;"></iframe>
+      </div> 
+    </div>   
+  </div>   
+  <h3 style="padding-top: 50px;">Songs And Albums</h3>   
+      <div id="friedrepeater" class="friedrepeater">
+    </div>  
+  </div> 
+  <div id="Guest" class="page">
+<div class="displaybox">
+<div class="slideshow-container">
+<div class="mySlides trasition">
+  <img class="artistimages" src="https://i.scdn.co/image/ab6761610000517456c9fc0018ce531b14f82f3c">
+</div>
+
+<div class="mySlides trasition">
+  <img class="artistimages" src="https://i.scdn.co/image/ab67616100005174f56878dbd4174c0cb6824861">
+</div>
+
+<div class="mySlides trasition">
+  <img class="artistimages" src="https://i.scdn.co/image/ab67616d00001e02805add922507f1d2738f9b48">
+</div>
+
+<div class="mySlides trasition">
+  <img class="artistimages" src="https://i.scdn.co/image/ab67616d00001e0286db2cbac1086427689e0698">
+</div>
+
+<div class="mySlides trasition">
+  <img class="artistimages" src="https://i.scdn.co/image/ab67616100005174e90be2bacc1964ae1a412505">
+</div>
+
+<div class="mySlides trasition">
+  <img class="artistimages" src="https://static.wixstatic.com/media/287026_ee5184fda26c4b3db2bfdd002a545432~mv2.jpg/v1/fill/w_980,h_988,al_t,q_85,usm_0.66_1.00_0.01,enc_auto/287026_ee5184fda26c4b3db2bfdd002a545432~mv2.jpg">
+</div>
+
+<div class="mySlides trasition">
+  <img class="artistimages" src="https://yt3.googleusercontent.com/KAymBPt3yXDxmiuFQcJlDW-kM59eFIL9s_7Mf_lFIHgsYdCS4Ryr3tRPu1IpovZqa-nkfjBiqA=s900-c-k-c0x00ffffff-no-rj">
+</div>
+
+<div class="mySlides trasition">
+  <img class="artistimages" src="https://i.scdn.co/image/ab67616100005174e44797ad3f5bf09fdac5b1cb">
+</div>
+
+<div class="mySlides trasition">
+  <img class="artistimages" src="https://yt3.googleusercontent.com/xo5Hx0SJ-v26Ku8HF2fLwNKGhE8vkRJVZXwTQi2phBfMNz84NP_WgEeNIBCHQXybCrYGMrZH=s900-c-k-c0x00ffffff-no-rj">
+</div>
+
+<div class="mySlides trasition">
+  <img class="artistimages" src="https://i.scdn.co/image/ab6761610000517457c3ae00a8847574691f200b">
+</div>
+</div>
+<div class="logincomments">
+<h4 style="margin-left: 30px;">You Are Curently A Guest But Feel Free To Make Yourself At Home</h4>
+<div class="button-container">
+  <a href="#log-in"><button>Login</button></a>
+  <a href="#sign-up"><button>Sign Up</button></a>
+  <a href="#" style="background-color: #0000; font-size: 10px; display: flex;"><button style="background-color: #0000; font-size: 10px;">I'll Stay A Guest</button></a>
+  </div>
+<br>
+<div style="text-align:center">
+  <span class="dot" onclick="currentSlide(1)"></span> 
+  <span class="dot" onclick="currentSlide(2)"></span> 
+  <span class="dot" onclick="currentSlide(3)"></span>
+  <span class="dot" onclick="currentSlide(4)"></span> 
+  <span class="dot" onclick="currentSlide(5)"></span> 
+  <span class="dot" onclick="currentSlide(6)"></span> 
+  <span class="dot" onclick="currentSlide(7)"></span> 
+  <span class="dot" onclick="currentSlide(8)"></span> 
+  <span class="dot" onclick="currentSlide(9)"></span>
+  <span class="dot" onclick="currentSlide(10)"></span>
+</div>
+</div>
+</div>
+      </div> 
+      <div id="services/request-a-song" class="page">
+        <div class="googleform" style="display: flex;justify-content: center;">
+          <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSd6H-yi5tx3FA-9xq1sIP1fScPMCoT-akD9bUVw3Ry72wPwbw/viewform?embedded=true" width="640" height="1300" frameborder="0" marginheight="0" marginwidth="0" style="
+              z-index: 4;          
+          ">Loading…</iframe>
+          </div>
+        </div>
+      </div>
+       <div id="services/contact-us" class="page">
+        <div class="googleform" style="display: flex;justify-content: center;">
+          <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScnn7M-XkCC7UuTCGED1L0HZsXQWeahirXRUX_6ejBawoQDcg/viewform?embedded=true" width="640" height="1300" width="640" height="1300" frameborder="0" marginheight="0" marginwidth="0" style="
+              z-index: 4;          
+          ">Loading…</iframe>
+          </div>
+        </div>
+      <div id="queue" class="page">
+          <h3 style="z-index: 4; position: relative; padding-bottom: 10px;">Now Playing</h3>
+          <div class="container-item-upnext" style="width: 95%; border-radius: 5px; margin-left: 5px;">
+            <img class="upnextimg" src="tyh.jpg" alt="Album Artwork">
+            <div class="upnext-text-content">
+              <div class="upnext-album-title">Thank You Hashem</div>
+              <div class="upnext-artist">Joey Newcomb, Moshe Storch</div>
+            </div>
+          </div>
+          <h3 style="z-index: 4; position: relative; padding-bottom: 10px;">Upcoming Songs</h3>
+          <div class="upnext-repeater">
+          </div>
+      </div>
+      <div id="Settings" class="page">
+        <h2 style="z-index: 4; position: relative;">Account Settings</h2>
+        <h3 style="z-index: 4; position: relative; padding-bottom: 50px;">User Settings</h3>
+        <div class="account-users">
+            <div class="user" onclick="focusCard(this)">
+                <img class="userimg" width="75" height="70" src="https://img.icons8.com/parakeet-line/512/888888/user.png">
+                Personal
+            </div>
+            <div class="user" onclick="focusCard(this)">
+                <img class="userimg" width="80" height="75" src="https://img.icons8.com/parakeet-line/512/888888/user-group-man-man.png">
+                Duo
+            </div>
+            <div class="user" onclick="focusCard(this)">
+                <img class="userimg" width="100" height="auto" src="user-group-man-man.png">
+                Family
+            </div>
+          </div>
+          <h3 style="z-index: 4; position: relative; padding-bottom: 50px;">Kashrus Settings</h3>
+          <p1 style="margin-left: 30px;">What Gender Are You</p1>
+          <div class="toggle-container">
+            <input type="checkbox" id="toggleSlidergender" class="toggleSlidergender">
+            <label for="toggleSlidergender" class="toggle-label"></label>
+            <div class="slider-text">
+                <span class="togglelable" onclick="toggleMale()">Male</span>
+                <span class="togglelable" onclick="toggleFemale()">Female</span>
+            </div>
+        </div>
+          <h3 style="z-index: 4; position: relative; padding-bottom: 50px;">Sefirah Settings</h3>
+          <div style="  display: flex; align-content: center;">
+          <p1>Which Half Of The Sefira Do You Keep</p1>
+          <div class="toggle-container">
+            <input type="checkbox" id="toggleSlidersefira" class="toggleSlidersefira">
+            <label for="toggleSlidersefira" class="toggle-label"></label>
+            <div class="slider-text">
+                <span class="togglelable" onclick="toggleFirstHalf()">First</span>
+                <span class="togglelable" onclick="toggleSeondHalf()">Second</span>
+            </div>
+          </div>
+        </div>
+        <div style="  display: flex; align-content: center;">
+          <p1>Do You Listen To Accapela</p1>
+        <div class="toggle-container">
+          <input type="checkbox" id="toggleSlideraccapela" class="toggleSlideraccapela">
+          <label for="toggleSlideraccapela" class="toggle-label"></label>
+          <div class="slider-text">
+              <span class="togglelable" onclick="toggleAccapela()">Yes</span>
+              <span class="togglelable" onclick="toggleNoAccapela()">No</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>     
+</div>
+<div id="player">
+  <div id="playing-details">
+    <div class="image-container">
+        <img id="image-artwork" src="tyh.JPG" alt="Image Artwork">
+        <div class="uparrow-overlay">
+            <img src="uparrow.png" alt="Up Arrow" id="uparrow-button">
+        </div>
+    </div>
+    <div class="repeater-text">
+        <div class="text-row-player">Thank You Hashem</div>
+        <div class="text-row-player">Joey Newcomb, Moshe Storch</div>
+    </div>
+</div>
+  <audio id="audioPlayer" controls>
+    <source id="audioSource" src="" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>  
+    <div class="extrabuttons" id="extrabuttons"> 
+      <button onclick="openModal()" style="background-color: black; border: none; color: white; padding: 4px;">
+        <img width="20" height="20" src="https://img.icons8.com/FFFFFF/ios-glyphs/512/bluetooth.png" alt="Bluetooth"/>
+      </button>  
+      <div id="myModal" class="modal">
+        <div class="modal-content">
+          <span class="close" onclick="closeModal()">&times;</span>
+          <h2>Bluetooth Devices</h2>
+          <ul id="deviceList"></ul>
+        </div>
+      </div>
+      <a href="#queue">
+      <button style="background-color: black; border: none; color: white; padding: 4px; width: 32px">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" style="width: 20px;">
+          <rect width="256" height="256" fill="none"/>
+          <line x1="40" y1="64" x2="216" y2="64" fill="none" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/>
+          <line x1="40" y1="128" x2="160" y2="128" fill="none" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/>
+          <line x1="40" y1="192" x2="112" y2="192" fill="none" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/>
+          <circle cx="176" cy="192" r="24" fill="none" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/>
+          <polyline points="200 192 200 112 240 124" fill="none" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/>
+        </svg>      
+      </a>
+        <div class="volume-control">
+          <button id="volumeButton" onmouseover="showVolumeSlider()" onmouseout="hideVolumeSlider()" oninput="changeVolume(this.value)" style="display: flex; align-items: center; background-color: black; border: none; color: white; padding: 4px;">
+            <img id="volumeIcon" width="20" height="20" src="https://img.icons8.com/FFFFFF/material-rounded/512/medium-volume.png" alt="Volume">
+            <input type="range" id="volumeRange" class="volume-slider" min="0" max="100" step="1" value="50" style="display: none; position: static; border-radius: 5px; height: 5px; background: linear-gradient(to right, darkblue 0%, darkblue 50%, lightgrey 50%, lightgrey 100%);">
+          </button>
+      </button>
+      <button onclick="toggleFullScreen()" style="background-color: black; border: none; color: white; padding: 4px;">
+        <img id="fullScreenIcon" width="20" height="20" src="https://img.icons8.com/FFFFFF/ios-glyphs/512/resize-diagonal.png" alt="Full Screen"/>
+      </button>     
+    </div>    
+  </div>
+</div> 
+    <script src="script.js"></script>
+</body>
+</html>
