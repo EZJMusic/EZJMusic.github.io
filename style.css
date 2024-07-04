@@ -1670,7 +1670,7 @@ opacity: 1;
 }
 
 #playing-details .image-container:hover .uparrow-overlay {
-  opacity: 1;
+  opacity: 0.6;
 }
 
 #image-row {
@@ -2140,4 +2140,7 @@ img {vertical-align: middle;}
   display: block;
 }
 
+#uparrow-button {
+  rotate: 270deg;
+}
 
