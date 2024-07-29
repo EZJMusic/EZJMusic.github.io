@@ -1,236 +1,254 @@
-
 document.addEventListener('DOMContentLoaded', function() {
-    // Get the overlay and container item elements
-    var overlay = document.getElementById('overlay');
-    var containerItem2 = document.querySelector('.container-item-services#container-item-2');
-  
-    // Add click event listener to container item 2
-    containerItem2.addEventListener('click', function() {
-      // Show the overlay when container item 2 is clicked
-      overlay.style.display = 'flex';
-    });
-  
-    // Add click event listener to overlay to hide it when clicked anywhere
-    overlay.addEventListener('click', function() {
-      // Hide the overlay when clicked anywhere
-      overlay.style.display = 'none';
-    });
-  });
-  document.addEventListener("DOMContentLoaded", function () {
-    const containerRepeater = document.querySelector('.container-repeater-streams');
-    let currentPlayingOverlay = null;
-    let currentTimestamp = 0;
-  
-    const imageSources = [
+  const audioPlayer = document.getElementById('audioPlayer');
+  const audioSource = document.getElementById('audioSource');
+  const playPauseButton = document.querySelector('.play-pause-button');
+  const prevButton = document.querySelector('.prev-button');
+  const nextButton = document.querySelector('.next-button');
+  const timeBar = document.querySelector('.time-bar');
+  const currentTimeElement = document.querySelector('.current-time');
+  const durationTimeElement = document.querySelector('.duration-time');
+
+  let isPlaying = false;
+  let currentTimestamp = 0;
+  let lastPausedTimestamp = 0;
+  let currentPlayingOverlay = null;
+  let lastPlayingNumber = null;
+
+  const audioFiles = {
+      528958: 'https://music.yiddish24.com:5001/9',
+      520538: 'https://music.yiddish24.com:5001/10',
+      525868: 'https://music.yiddish24.com:5001/8',
+      520593: 'https://broadcast.adpronet.com/radio/8010/radio.mp3?ver=370660',
+      529593: 'https://stream.jewishmusicstream.com:8000/;',
+      578395: 'https://media2.93fm.co.il/livemusic'
+  };
+
+  const imageSources = [
       'Chasunakumzits.png',
       'seconddance.png',
       'chasunafreilach.png',
       'https://static.wixstatic.com/media/460038_dc1333e3f5854e28b29e471ce17a88b7~mv2.jpg/v1/fill/w_398,h_401,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/460038_dc1333e3f5854e28b29e471ce17a88b7~mv2.jpg',
       'https://static.wixstatic.com/media/460038_06e17f096191422da6e4bed2c110fbf4~mv2.jpg/v1/fill/w_398,h_401,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/460038_06e17f096191422da6e4bed2c110fbf4~mv2.jpg',
       'https://static.wixstatic.com/media/460038_9b6cfe52c8234c82957551d53c8db278~mv2.png/v1/fill/w_398,h_401,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/460038_9b6cfe52c8234c82957551d53c8db278~mv2.png'
-    ];
-  
-    const albumTitles = [
+  ];
+
+  const albumTitles = [
       'Chasuna Kumzits',
       'Chasuna 2nd Dance',
       'Chasuna Freilach',
       'Geula FM',
       'Jewish Music Stream',
       'Kol Chai Music'
-    ];
-  
-    const artists = [
+  ];
+
+  const artists = [
       'Yiddish 24',
       'Yiddish 24',
       'Yiddish 24',
       'Geula FM',
       'Jewish Music Stream',
       'Radio Kol Chai'
-    ];
-  
-    const hrefs = [
+  ];
+
+  const hrefs = [
       '#streams/chasuna-kumzits',
       '#streams/Chasuna-2nd-Dance',
       '#streams/Chasuna-Freilach',
       '#streams/Geula-FM',
       '#streams/Jewish-Music-Stream',
       '#streams/Kol-Chai-Music'
-    ];
-  
-    const audioNumbers = [
+  ];
+
+  const audioNumbers = [
       528958,
       520538,
       525868,
       520593,
       529593,
       578395
-    ];
-  
-    for (let i = 0; i < 6; i++) {
+  ];
+
+  const containerRepeater = document.querySelector('.container-repeater-streams');
+
+  for (let i = 0; i < 6; i++) {
       const containerItem = document.createElement('a');
       containerItem.classList.add('container-item-streams');
       containerItem.href = hrefs[i];
       containerItem.innerHTML = `
-        <img src="${imageSources[i]}" alt="Album Artwork">
-        <div class="overlay" data-number="${audioNumbers[i]}" style="
-          position: absolute;
-          top: 2px;
-          left: 4px;
-          width: 95px;
-          height: 96px;
-          background: rgba(0, 0, 0, 0.5);
-          opacity: 0;
-          transition: opacity 0.3s;
-          border-radius: 4px;">
-          <div class="play-button" style="display: block;">
-            <img src="https://img.icons8.com/material-rounded/512/FFFFFF/play--v2.png" alt="play--v2" style="
-              width: 50px;
-              height: 50px;
-              margin: 23px">
+          <img src="${imageSources[i]}" alt="Album Artwork">
+          <div class="overlay" data-number="${audioNumbers[i]}" style="
+              position: absolute;
+              top: 2px;
+              left: 4px;
+              width: 95px;
+              height: 96px;
+              background: rgba(0, 0, 0, 0.5);
+              opacity: 0;
+              transition: opacity 0.3s;
+              border-radius: 4px;">
+              <div class="play-button" style="display: block;">
+                  <img src="https://img.icons8.com/material-rounded/512/FFFFFF/play--v2.png" alt="play--v2" style="
+                      width: 50px;
+                      height: 50px;
+                      margin: 23px">
+              </div>
+              <div class="pause-button" style="display: none;">
+                  <img src="https://img.icons8.com/material-rounded/512/FFFFFF/pause--v2.png" alt="pause--v2" style="
+                      width: 50px;
+                      height: 50px;
+                      margin: 23px">
+              </div>
           </div>
-          <div class="pause-button" style="display: none;">
-            <img src="https://img.icons8.com/material-rounded/512/FFFFFF/pause--v2.png" alt="pause--v2" style="
-              width: 50px;
-              height: 50px;
-              margin: 23px">
-          </div>
-        </div>
-        <div class="text-content">
-          <div class="album-title">${albumTitles[i]}</div>
-          <div class="artist">${artists[i]}</div>
-        </div>`;
+          <div class="text-content">
+              <div class="album-title">${albumTitles[i]}</div>
+              <div class="artist">${artists[i]}</div>
+          </div>`;
       containerRepeater.appendChild(containerItem);
-  
+
       containerItem.addEventListener('mouseover', function() {
-        const overlay = containerItem.querySelector('.overlay');
-        if (!overlay.classList.contains('playing')) {
-          overlay.style.opacity = '1';
-        }
+          const overlay = containerItem.querySelector('.overlay');
+          if (!overlay.classList.contains('playing')) {
+              overlay.style.opacity = '1';
+          }
       });
-  
+
       containerItem.addEventListener('mouseout', function() {
-        const overlay = containerItem.querySelector('.overlay');
-        if (!overlay.classList.contains('playing')) {
-          overlay.style.opacity = '0';
-        }
+          const overlay = containerItem.querySelector('.overlay');
+          if (!overlay.classList.contains('playing')) {
+              overlay.style.opacity = '0';
+          }
       });
-    }
-  
-    containerRepeater.addEventListener('click', function (event) {
+  }
+
+  containerRepeater.addEventListener('click', function(event) {
       const overlay = event.target.closest('.overlay');
       if (overlay) {
-        event.preventDefault();
-        const playButton = overlay.querySelector('.play-button');
-        const pauseButton = overlay.querySelector('.pause-button');
-        const number = overlay.getAttribute('data-number');
-        togglePlayPause(number, overlay, playButton, pauseButton);
+          event.preventDefault();
+          const playButton = overlay.querySelector('.play-button');
+          const pauseButton = overlay.querySelector('.pause-button');
+          const number = overlay.getAttribute('data-number');
+          togglePlayPause(number, overlay, playButton, pauseButton);
       }
-    });
-  
-    function togglePlayPause(number, overlay, playButton, pauseButton) {
-      const audioFiles = {
-        528958: 'https://music.yiddish24.com:5001/9',
-        520538: 'https://music.yiddish24.com:5001/10',
-        525868: 'https://music.yiddish24.com:5001/8',
-        520593: 'https://broadcast.adpronet.com/radio/8010/radio.mp3?ver=370660',
-        529593: 'https://stream.jewishmusicstream.com:8000/;',
-        578395: 'https://media2.93fm.co.il/livemusic'
-      };
-  
-      const audioPlayer = document.getElementById('audioPlayer');
-      const audioSource = document.getElementById('audioSource');
-  
+  });
+
+  function togglePlayPause(number, overlay, playButton, pauseButton) {
       if (audioFiles[number]) {
-        if (currentPlayingOverlay !== overlay) {
-          if (currentPlayingOverlay) {
-            currentPlayingOverlay.classList.remove('playing');
-            currentPlayingOverlay.style.opacity = '0';
-          }
-          currentTimestamp = 0;
-          currentPlayingOverlay = overlay;
-  
-          audioSource.src = audioFiles[number];
-          audioPlayer.currentTime = currentTimestamp;
-          audioPlayer.load();
-          audioPlayer.play();
-          updateOverlayStyles(overlay, playButton, pauseButton);
-          updatePlayerDetails(number);
-        } else {
-          if (audioPlayer.paused) {
-            audioPlayer.currentTime = currentTimestamp;
-            audioPlayer.play();
+          if (currentPlayingOverlay !== overlay) {
+              if (currentPlayingOverlay) {
+                  currentPlayingOverlay.classList.remove('playing');
+                  currentPlayingOverlay.querySelector('.play-button').style.display = 'block';
+                  currentPlayingOverlay.querySelector('.pause-button').style.display = 'none';
+                  currentPlayingOverlay.style.opacity = '0';
+              }
+
+              currentPlayingOverlay = overlay;
+              audioSource.src = audioFiles[number];
+              audioPlayer.currentTime = (lastPlayingNumber === number) ? lastPausedTimestamp : 0;
+              audioPlayer.load();
+              audioPlayer.play();
+              lastPlayingNumber = number;
+              updateOverlayStyles(overlay, playButton, pauseButton);
+              updatePlayerDetails(number);
           } else {
-            currentTimestamp = audioPlayer.currentTime;
-            audioPlayer.pause();
+              if (audioPlayer.paused) {
+                  audioPlayer.currentTime = lastPausedTimestamp;
+                  audioPlayer.play();
+              } else {
+                  lastPausedTimestamp = audioPlayer.currentTime;
+                  audioPlayer.pause();
+              }
           }
-        }
-  
-        playButton.style.display = audioPlayer.paused ? 'block' : 'none';
-        pauseButton.style.display = audioPlayer.paused ? 'none' : 'block';
+
+          playButton.style.display = audioPlayer.paused ? 'block' : 'none';
+          pauseButton.style.display = audioPlayer.paused ? 'none' : 'block';
       } else {
-        console.error('Audio file not found for number:', number);
+          console.error('Audio file not found for number:', number);
       }
-    }
-  
-    function updateOverlayStyles(playingOverlay, playButton, pauseButton) {
+  }
+
+  function updateOverlayStyles(playingOverlay, playButton, pauseButton) {
       document.querySelectorAll('.overlay').forEach(overlay => {
-        if (overlay === playingOverlay) {
-          overlay.classList.add('playing');
-          overlay.style.opacity = '1';
-        } else {
-          overlay.classList.remove('playing');
-          overlay.style.opacity = '0';
-        }
+          if (overlay === playingOverlay) {
+              overlay.classList.add('playing');
+              overlay.style.opacity = '1';
+          } else {
+              overlay.classList.remove('playing');
+              overlay.style.opacity = '0';
+          }
       });
-  
-      playButton.style.display = 'none';
-      pauseButton.style.display = 'block';
-    }
-  
-    function updatePlayerDetails(number) {
+
+      playPauseButton.querySelector('i').classList.replace('fa-pause-circle', 'fa-play-circle');
+      playPauseButton.querySelector('i').classList.replace('fa-play-circle', 'fa-pause-circle');
+  }
+
+  function updatePlayerDetails(number) {
       const index = audioNumbers.indexOf(parseInt(number));
       if (index !== -1) {
-        document.getElementById('image-artwork').src = imageSources[index];
-        const textRows = document.querySelectorAll('.repeater-text .text-row-player');
-        textRows[0].textContent = albumTitles[index];
-        textRows[1].textContent = `${artists[index]}`;
+          document.getElementById('image-artwork').src = imageSources[index];
+          const textRows = document.querySelectorAll('.repeater-text .text-row-player');
+          textRows[0].textContent = albumTitles[index];
+          textRows[1].textContent = `${artists[index]}`;
       }
-    }
-  
-    const audioPlayer = document.getElementById('audioPlayer');
-    audioPlayer.addEventListener('play', function() {
-      const currentSource = audioPlayer.src;
-      document.querySelectorAll('.overlay').forEach(overlay => {
-        const playButton = overlay.querySelector('.play-button');
-        const pauseButton = overlay.querySelector('.pause-button');
-        const number = overlay.getAttribute('data-number');
-  
-        if (audioFiles[number] === currentSource) {
-          playButton.style.display = 'none';
-          pauseButton.style.display = 'block';
-          overlay.style.opacity = '1';
-        } else {
-          playButton.style.display = 'block';
-          pauseButton.style.display = 'none';
-          overlay.style.opacity = '0';
-        }
-      });
-    });
-  
-    audioPlayer.addEventListener('pause', function() {
-      document.querySelectorAll('.overlay').forEach(overlay => {
-        const playButton = overlay.querySelector('.play-button');
-        const pauseButton = overlay.querySelector('.pause-button');
-        const isPlaying = overlay.classList.contains('playing');
-  
-        if (isPlaying) {
-          playButton.style.display = 'block';
-          pauseButton.style.display = 'none';
-          overlay.classList.remove('playing');
-        }
-      });
-    });
+  }
+
+  playPauseButton.addEventListener('click', function() {
+      if (audioPlayer.paused) {
+          audioPlayer.play();
+          playPauseButton.querySelector('i').classList.replace('fa-play-circle', 'fa-pause-circle');
+          syncRepeaterPlayPause(true);
+      } else {
+          audioPlayer.pause();
+          playPauseButton.querySelector('i').classList.replace('fa-pause-circle', 'fa-play-circle');
+          syncRepeaterPlayPause(false);
+          lastPausedTimestamp = audioPlayer.currentTime;
+      }
   });
+
+  function syncRepeaterPlayPause(isPlaying) {
+      document.querySelectorAll('.overlay').forEach(overlay => {
+          const playButton = overlay.querySelector('.play-button');
+          const pauseButton = overlay.querySelector('.pause-button');
+          const number = overlay.getAttribute('data-number');
+
+          if (audioFiles[number] === audioSource.src) {
+              playButton.style.display = isPlaying ? 'none' : 'block';
+              pauseButton.style.display = isPlaying ? 'block' : 'none';
+              overlay.classList.toggle('playing', isPlaying);
+              overlay.style.opacity = isPlaying ? '1' : '0';
+          }
+      });
+  }
+
+  function formatTime(seconds) {
+      const minutes = Math.floor(seconds / 60);
+      const remainingSeconds = Math.floor(seconds % 60);
+      return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+  }
+
+  audioPlayer.addEventListener('play', function() {
+      syncRepeaterPlayPause(true);
+  });
+
+  audioPlayer.addEventListener('pause', function() {
+      syncRepeaterPlayPause(false);
+      lastPausedTimestamp = audioPlayer.currentTime;
+  });
+
+  audioPlayer.addEventListener('loadedmetadata', () => {
+      durationTimeElement.textContent = formatTime(audioPlayer.duration);
+      timeBar.max = audioPlayer.duration;
+  });
+
+  audioPlayer.addEventListener('timeupdate', () => {
+      currentTimeElement.textContent = formatTime(audioPlayer.currentTime);
+      timeBar.value = audioPlayer.currentTime;
+  });
+
+  timeBar.addEventListener('input', () => {
+      audioPlayer.currentTime = timeBar.value;
+  });
+});
+
   
           document.addEventListener("DOMContentLoaded", function () {
               const repeaterRow = document.getElementById('repeater-row-video');
@@ -402,7 +420,7 @@ document.addEventListener('DOMContentLoaded', function() {
   
         // Create previous page button
         const prevButton = document.createElement('button');
-        prevButton.innerHTML = '<img width="40" height="40" src="icons8-forward-100 - Copy.png"/>';
+        prevButton.innerHTML = '<img width="30" height="30" src="https://img.icons8.com/ios-filled/512/3333ff/forward--v1.png" style="rotate: 180deg;">';
         prevButton.addEventListener('click', function () {
           window.history.back();
         });
@@ -417,18 +435,18 @@ document.addEventListener('DOMContentLoaded', function() {
   
         // Create next page button
         const nextButton = document.createElement('button');
-        nextButton.innerHTML = '<img width="40" height="40" src="icons8-forward-100.png"/>';
+        nextButton.innerHTML = '<img width="30" height="30" src="https://img.icons8.com/ios-filled/512/3333ff/forward--v1.png"/>';
         nextButton.addEventListener('click', function () {
           window.history.forward();
         });
         nextButton.id = 'nextButton'; // Add ID
   
         // Apply CSS styles to make the buttons invisible and add margin
-        const buttonStyles = 'background-color: transparent; border: none; margin-left: 5px; padding-left: 0; padding-right: 0; transition: opacity 0.3s; cursor: pointer;';
+        const buttonStyles = 'background-color: #000; border: none; margin-left: 5px; width: 40px; height: 40px; transition: opacity 0.3s; cursor: pointer;';
   
-        prevButton.style.cssText = buttonStyles + 'padding-right: 0;';
-        prevButton.style.cssText = buttonStyles + 'margin-left: 10px;';
-        nextButton.style.cssText = buttonStyles + 'padding-left: 0;';
+        prevButton.style.cssText = buttonStyles + 'padding-right: 0px;';
+        prevButton.style.cssText = buttonStyles + 'margin-left: 10px; border-radius: 10px;';
+        nextButton.style.cssText = buttonStyles + 'padding-left: 6px; border-radius: 10px;';
   
         nextButton.addEventListener('mouseover', function () {
           nextButton.style.opacity = '1';
@@ -442,103 +460,7 @@ document.addEventListener('DOMContentLoaded', function() {
         header.insertBefore(nextButton, header.firstChild);
         header.insertBefore(prevButton, header.firstChild);
       });
-      document.addEventListener("DOMContentLoaded", function () {
-        const repeaterContainerSidebar = document.querySelector('.repeater-container-sidebar');
-  
-        // Array of image URLs, album titles, and artists
-        const imageSources = [
-          'tyh.jpg',
-          'vhareinu.jpg',
-          'yirei shomayim.jpg',
-          'nafshi.jpg',
-          'vzakeini.jpg',
-          'abba.jpg'
-        ];
-  
-        const albumTitles = [
-          'Thank You Hashem',
-          'Vhareinu',
-          'Yirei Shomayim',
-          'Nafshi',
-          'Vzakeini',
-          'Abba'
-        ];
-  
-        const artists = [
-          'Song • Joey Newcomb, Moshe Storch',
-          'Song • Shlomo Yehuda Rechnitz',
-          'Song • Shmueli Ungar',
-          'Song • Ishey Ribo, Motty Shteinmetz',
-          'Song • Benny Friedman, Baruch Levine',
-          'Song • Avraham Fried, Ari Hill'
-        ];
-  
-        // Create containers dynamically with individual image sources, titles, and artists
-        for (let i = 0; i < 6; i++) {
-          const repeaterItem = document.createElement('div');
-          repeaterItem.classList.add('repeater-sidebar-item');
-          repeaterItem.innerHTML = `
-     <div class="repeater-item">
-      <img src="${imageSources[i]}" alt="Repeater Image">
-      <div class="repeater-text">
-        <div class="text-row">${albumTitles[i]}</div>
-        <div class="text-row">
-    ${artists[i]}</div>
-      </div>
-      </div>
-      `;
-          repeaterContainerSidebar.appendChild(repeaterItem);
-        }
-});
 
-document.addEventListener("DOMContentLoaded", function () {
-  const repeaterContainerSidebar = document.querySelector('.repeater-container-sidebar1');
-
-  // Array of image URLs, album titles, and artists
-  const imageSources = [
-    'tyh.jpg',
-    'vhareinu.jpg',
-    'yirei shomayim.jpg',
-    'nafshi.jpg',
-    'vzakeini.jpg',
-    'abba.jpg'
-  ];
-
-  const albumTitles = [
-    'Thank You Hashem',
-    'Vhareinu',
-    'Yirei Shomayim',
-    'Nafshi',
-    'Vzakeini',
-    'Abba'
-  ];
-
-  const artists = [
-    'Song • Joey Newcomb, Moshe Storch',
-    'Song • Shlomo Yehuda Rechnitz',
-    'Song • Shmueli Ungar',
-    'Song • Ishey Ribo, Motty Shteinmetz',
-    'Song • Benny Friedman, Baruch Levine',
-    'Song • Avraham Fried, Ari Hill'
-  ];
-
-  // Create containers dynamically with individual image sources, titles, and artists
-  for (let i = 0; i < 6; i++) {
-    const repeaterItem = document.createElement('div');
-    repeaterItem.classList.add('repeater-sidebar-item');
-    repeaterItem.innerHTML = `
-<div class="repeater-item">
-<img src="${imageSources[i]}" alt="Repeater Image">
-<div class="repeater-text">
-  <div class="text-row">${albumTitles[i]}</div>
-  <div class="text-row">
-${artists[i]}</div>
-</div>
-</div>
-`;
-    repeaterContainerSidebar.appendChild(repeaterItem);
-  }
-});
 
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -646,53 +568,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  function togglePlayPause(number, overlay, playButton, pauseButton) {
-    // Add audio file URLs corresponding to each number
-    const audioFiles = {
-      38473: 'Thank you Hashem.',
-      39275: 'Vhareinu.',
-      34579: 'Yirei Shomayim.',
-      31647: 'Nafshi.',
-      38859: 'Vzakeini.',
-      39075: 'Abba.'
-    };
-
-    const audioPlayer = document.getElementById('audioPlayer');
-    const audioSource = document.getElementById('audioSource');
-
-    if (audioFiles[number]) {
-      if (!overlay.classList.contains('playing')) {
-        // Stop currently playing audio
-        const currentPlayingOverlay = document.querySelector('.overlay-1st.playing');
-        if (currentPlayingOverlay) {
-          currentPlayingOverlay.classList.remove('playing');
-          currentPlayingOverlay.style.opacity = '0';
-        }
-
-        // Play new audio
-        audioSource.src = audioFiles[number];
-        audioPlayer.load();
-        audioPlayer.play();
-
-        // Update UI
-        overlay.classList.add('playing');
-        overlay.style.opacity = '1';
-        playButton.style.display = 'none';
-        pauseButton.style.display = 'block';
-
-        // Update player details
-        updatePlayerDetails(number);
-      } else {
-        audioPlayer.pause();
-        overlay.classList.remove('playing');
-        overlay.style.opacity = '0';
-        playButton.style.display = 'block';
-        pauseButton.style.display = 'none';
-      }
-    } else {
-      console.error('Audio file not found for number:', number);
-    }
-  }
 
   // Function to update player details
   function updatePlayerDetails(number) {
@@ -764,139 +639,133 @@ document.addEventListener("DOMContentLoaded", function () {
       });
       document.addEventListener("DOMContentLoaded", function () {
         const containerRepeater = document.querySelector('.container-repeater');
-  
-        // Array of image URLs, album titles, and artists
-        const imageSources = [
-          'tyh.jpg',
-          'vhareinu.jpg',
-          'yirei shomayim.jpg',
-          'nafshi.jpg',
-          'vzakeini.jpg',
-          'abba.jpg'
+      
+        // Array of objects containing image URLs, album titles, and artists
+        const albums = [
+          {
+            imageSource: 'tyh.jpg',
+            albumTitle: 'Thank You Hashem',
+            artist: 'Joey Newcomb, Moshe Storch'
+          },
+          {
+            imageSource: 'vhareinu.jpg',
+            albumTitle: 'Vhareinu',
+            artist: 'Shlomo Yehuda Rechnitz'
+          },
+          {
+            imageSource: 'yirei shomayim.jpg',
+            albumTitle: 'Yirei Shomayim',
+            artist: 'Shmueli Ungar'
+          },
+          {
+            imageSource: 'nafshi.jpg',
+            albumTitle: 'Nafshi',
+            artist: 'Ishey Ribo, Motty Shteinmetz'
+          },
+          {
+            imageSource: 'vzakeini.jpg',
+            albumTitle: 'Vzakeini',
+            artist: 'Benny Friedman, Baruch Levine'
+          },
+          {
+            imageSource: 'abba.jpg',
+            albumTitle: 'Abba',
+            artist: 'Avraham Fried, Ari Hill'
+          }
+          // Add more albums as needed
         ];
-  
-        const albumTitles = [
-          'Thank You Hashem',
-          'Vhareinu',
-          'Yirei Shomayim',
-          'Nafshi',
-          'Vzakeini',
-          'Abba'
-        ];
-  
-        const artists = [
-          'Joey Newcomb, Moshe Storch',
-          'Shlomo Yehuda Rechnitz',
-          'Shmueli Ungar',
-          'Ishey Ribo, Motty Shteinmetz',
-          'Benny Friedman, Baruch Levine',
-          'Avraham Fried, Ari Hill'
-        ];
-  
+      
         // Create containers dynamically with individual image sources, titles, and artists
-        for (let i = 0; i < 6; i++) {
+        albums.forEach((album) => {
           const containerItem = document.createElement('div');
           containerItem.classList.add('container-item');
           containerItem.innerHTML = `
-      <img src="${imageSources[i]}" alt="Album Artwork">
-      <div class="text-content">
-        <div class="album-title">${albumTitles[i]}</div>
-        <div class="artist">${artists[i]}</div>
-      </div>`;
+            <img src="${album.imageSource}" alt="Album Artwork">
+            <div class="text-content">
+              <div class="album-title">${album.albumTitle}</div>
+              <div class="artist">${album.artist}</div>
+            </div>`;
           containerRepeater.appendChild(containerItem);
-        }
-
-  
-
-        const leftColumn = document.getElementById("leftColumn");
-        const separator = document.querySelector('.separator');
-        const rightColumn = document.querySelector('.right-column');
-  
-        let isDragging = false;
-        let startMouseX = 0;
-        let startLeftWidth = 0;
-        let startRightWidth = 0;
-  
-        separator.addEventListener("mousedown", function (event) {
-          isDragging = true;
-          startMouseX = event.clientX;
-          startLeftWidth = leftColumn.offsetWidth;
-          startRightWidth = rightColumn.offsetWidth;
-        });
-        document.addEventListener("mousemove", function (event) {
-          if (isDragging) {
-            const diffX = event.clientX - startMouseX;
-  
-            let newLeftWidth = startLeftWidth + diffX;
-            let newRightWidth = startRightWidth - diffX;
-  
-            const minWidth = 300; // for example, 400 pixels
-            const maxWidth = 450; // for example, 400 pixels
-  
-            if (newLeftWidth < minWidth) {
-              newLeftWidth = minWidth;
-              newRightWidth = leftColumn.offsetWidth + rightColumn.offsetWidth - minWidth;
-            } else if (newLeftWidth > maxWidth) {
-              newLeftWidth = maxWidth;
-              newRightWidth = leftColumn.offsetWidth + rightColumn.offsetWidth - maxWidth;
-            }
-  
-            if (newLeftWidth > 0 && newRightWidth > 0 && newLeftWidth + newRightWidth === leftColumn.offsetWidth + rightColumn.offsetWidth) {
-              leftColumn.style.width = newLeftWidth + "px";
-              rightColumn.style.width = newRightWidth + "px";
-            }
-          }
-        });
-        document.addEventListener("mouseup", function () {
-          isDragging = false;
         });
       });
-  
-      function toggleLeftColumn() {
-    const leftColumn = document.querySelector('.left-column');
-    const iconContainer = document.querySelector('.icon-container');
-    
-    if (leftColumn.style.width === '70px') {
-      // If the left column is closed, open it to the last saved width
-      const lastWidth = localStorage.getItem('leftColumnWidth');
-      leftColumn.style.width = lastWidth ? lastWidth : ''; // Set to the last saved width or default width if not available
-    } else {
-      // If the left column is open, save its width and close it
-      localStorage.setItem('leftColumnWidth', leftColumn.offsetWidth + 'px'); // Save the current width
-      leftColumn.style.width = '70px'; // Set width to 70px
-    }
-  }
-  function toggleLeftColumn() {
-    const leftColumn = document.querySelector('.left-column');
-    const rightColumn = document.querySelector('.right-column');
-    const iconContainer = document.querySelector('.icon-container');
-    
-    if (leftColumn.classList.contains('closed')) {
-      // If the left column is closed, open it
-      leftColumn.classList.remove('closed');
-      leftColumn.style.width = localStorage.getItem('leftColumnWidth') || '';
-      rightColumn.style.width = ''; // Reset right column width to fill up the leftover space
-    } else {
-      // If the left column is open, close it
-      leftColumn.classList.add('closed');
-      localStorage.setItem('leftColumnWidth', leftColumn.offsetWidth + 'px');
-      leftColumn.style.width = '70px'; // Set width to 70px
-      rightColumn.style.width = `calc(100% - 70px)`; // Adjust right column width to fill up the leftover space
-    }
-  }
-  function toggleSidebar() {
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.querySelector('.overlay');
-    sidebar.classList.toggle('open');
-    overlay.style.display = sidebar.classList.contains('open') ? 'block' : 'none';
-  }
 
-  function closeSidebar() {
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.querySelector('.overlay');
-    sidebar.classList.remove('open');
-    overlay.style.display = 'none';
-  }
+    
+      document.addEventListener("DOMContentLoaded", function () {
+        const containerRepeater = document.getElementById('devices-repeater');
+        
+        const devices = [
+            {
+              icon: 'https://img.icons8.com/ios/512/ffffff/earbud-headphones-airpods-pro.png',
+              name: 'Earphones',
+              description: 'Your Earphones Setting',
+              link: '#device1'
+            },
+            {
+              icon: 'https://img.icons8.com/ios/512/ffffff/iphone14-pro.png',
+              name: 'Phone',
+              description: 'Your Phone Settings',
+              link: '#device2'
+            },
+            {
+              icon: 'https://img.icons8.com/ios/512/ffffff/apple-watch.png',
+              name: 'Smartwatch',
+              description: 'Your Smartwatch Settings',
+              link: '#device3'
+            },
+            {
+              icon: 'https://img.icons8.com/ios/512/ffffff/aipods-pro-max.png',
+              name: 'Headphones',
+              description: 'Your Headphones Settings',
+              link: '#device3'
+            },
+            {
+              icon: 'https://img.icons8.com/ios/512/ffffff/tesla-model-3.png',
+              name: 'Car App',
+              description: 'Your Car App Settings',
+              link: '#device3'
+            },
+            {
+              icon: 'https://img.icons8.com/ios/512/ffffff/mac-book-air.png',
+              name: 'Laptop',
+              description: 'Your Laptop Settings',
+              link: '#device3'
+            }
+                      ];
+
+        // Function to create URL-friendly strings (if needed)
+        function createSlug(name) {
+            return name.toLowerCase().replace(/\s+/g, '-');
+        }
+
+        // Create containers dynamically with device data
+        devices.forEach(device => {
+            const containerItem = document.createElement('div');
+            containerItem.classList.add('devices-repeater-item');
+
+            // Create the link element that will wrap the entire containerItem
+            const link = document.createElement('a');
+            link.href = device.link;
+            link.classList.add('device-link'); // Add a class for styling if needed
+
+            // Append content to containerItem
+            containerItem.innerHTML = `
+                <img src="${device.icon}" alt="${device.name}">
+                <div class="text-content">
+                    <div class="device-name">${device.name}</div>
+                    <div class="device-description">${device.description}</div>
+                </div>
+            `;
+
+            // Append the containerItem to the link
+            link.appendChild(containerItem);
+
+            // Append the link to the repeater container
+            containerRepeater.appendChild(link);
+        });
+    });
+
+
+      const fullscreenTooltip = document.getElementById('fullscreenTooltip');
 
   function toggleFullScreen() {
     const elem = document.documentElement;
@@ -914,11 +783,15 @@ document.addEventListener("DOMContentLoaded", function () {
   document.addEventListener("fullscreenchange", function () {
     const fullScreenIcon = document.getElementById("fullScreenIcon");
     if (document.fullscreenElement) {
-      fullScreenIcon.src = "https://img.icons8.com/FFFFFF/ios-glyphs/512/compress--v1.png";
+        fullScreenIcon.textContent = "close_fullscreen";
+        fullscreenTooltip.textContent = 'Exit Fullscreen'; 
+        
     } else {
-      fullScreenIcon.src = "https://img.icons8.com/FFFFFF/ios-glyphs/512/resize-diagonal.png";
+        fullScreenIcon.textContent = "open_in_full";
+        fullscreenTooltip.textContent = 'Fullscreen'; 
+
     }
-  });
+});
 
   document.addEventListener('DOMContentLoaded', function () {
     const audioPlayer = document.getElementById('myAudioPlayer');
@@ -944,132 +817,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
-const audio = document.getElementById("audio");
-const volumeRange = document.getElementById("volumeRange");
-const volumeButton = document.getElementById('volumeButton');
-const volumeIcon = document.getElementById('volumeIcon');
-
-volumeRange.addEventListener('input', function() {
-  updateVolumeIcon(this.value);
-});
-
-volumeButton.addEventListener('mouseenter', function() {
-  volumeRange.style.opacity = 1;
-  volumeRange.style.transform = 'translateX(0%)';
-});
-
-volumeButton.addEventListener('mouseleave', function() {
-  volumeRange.style.opacity = 0;
-  volumeRange.style.transform = 'translateX(-100%)';
-});
-
-function updateVolumeIcon(volume) {
-  if (volume == 0) {
-    volumeIcon.src = 'https://img.icons8.com/FFFFFF/material-rounded/512/mute.png';
-  } else if (volume < 50) {
-    volumeIcon.src = 'https://img.icons8.com/FFFFFF/material-rounded/512/low-volume.png';
-  } else {
-    volumeIcon.src = 'https://img.icons8.com/FFFFFF/material-rounded/512/medium-volume.png';
-  }
-}
-
-function showVolumeSlider() {
-  document.querySelector(".volume-control").style.width = "80px";
-  document.getElementById("volumeRange").style.display = "block";
-}
-
-function hideVolumeSlider() {
-  document.querySelector(".volume-control").style.width = "80px";
-  document.getElementById("volumeRange").style.display = "none";
-}
-
-volumeRange.addEventListener("input", () => {
-  const value = volumeRange.value;
-  volumeRange.style.background = `linear-gradient(to right, darkblue 0%, darkblue ${value}%, #fff ${value}%, #fff 100%)`;
-  audio.volume = value / 100;
-});
-
-async function openModal() {
-  const modal = document.getElementById('myModal');
-  modal.style.display = 'block';
-
-  try {
-    const device = await navigator.bluetooth.requestDevice({
-      filters: [{ services: ['audio_sink'] }],
-    });
-    console.log('Bluetooth device connected:', device.name);
-    // Code to connect to the selected Bluetooth audio device
-    closeModal(); // Close the modal after selecting a device
-  } catch (error) {
-    console.error('Bluetooth connection error:', error);
-    closeModal(); // Close the modal if an error occurs
-  }
-}
-
-function closeModal() {
-  const modal = document.getElementById('myModal');
-  modal.style.display = 'none';
-}
-
-document.addEventListener("DOMContentLoaded", function () {
-  const containerRepeater = document.querySelector('.upnext-repeater');
-
-  // Array of image URLs, album titles, and artists
-  const imageSources = [
-    'tyh.jpg',
-    'vhareinu.jpg',
-    'yirei shomayim.jpg',
-    'nafshi.jpg',
-    'vzakeini.jpg',
-    'tyh.jpg',
-    'vhareinu.jpg',
-    'yirei shomayim.jpg',
-    'nafshi.jpg',
-    'vzakeini.jpg',
-    'abba.jpg'
-  ];
-
-  const albumTitles = [
-    'Thank You Hashem',
-    'Vhareinu',
-    'Yirei Shomayim',
-    'Nafshi',
-    'Vzakeini',
-    'Thank You Hashem',
-    'Vhareinu',
-    'Yirei Shomayim',
-    'Nafshi',
-    'Vzakeini',
-    'Abba'
-  ];
-
-  const artists = [
-    'Joey Newcomb, Moshe Storch',
-    'Shlomo Yehuda Rechnitz',
-    'Shmueli Ungar',
-    'Ishey Ribo, Motty Shteinmetz',
-    'Benny Friedman, Baruch Levine',
-    'Joey Newcomb, Moshe Storch',
-    'Shlomo Yehuda Rechnitz',
-    'Shmueli Ungar',
-    'Ishey Ribo, Motty Shteinmetz',
-    'Benny Friedman, Baruch Levine',
-    'Avraham Fried, Ari Hill'
-  ];
-
-  // Create containers dynamically with individual image sources, titles, and artists
-  for (let i = 0; i < 10; i++) {
-    const containerItem = document.createElement('div');
-    containerItem.classList.add('container-item-upnext');
-    containerItem.innerHTML = `
-<img class="upnextimg" src="${imageSources[i]}" alt="Album Artwork">
-<div class="upnext-text-content">
-  <div class="upnext-album-title">${albumTitles[i]}</div>
-  <div class="upnext-artist">${artists[i]}</div>
-</div>`;
-    containerRepeater.appendChild(containerItem);
-  }
-});
 
 document.addEventListener("DOMContentLoaded", function () {
   const containerRepeater = document.querySelector('.repeater-row-artists');
@@ -1138,6 +885,8 @@ document.addEventListener("DOMContentLoaded", function () {
     containerRepeater.appendChild(containerItem);
   }
 });
+
+
 
 document.addEventListener("DOMContentLoaded", function () {
   const uparrowButton = document.getElementById("uparrow-button");
@@ -1278,55 +1027,6 @@ document.addEventListener("DOMContentLoaded", function () {
   scrollToAnchor();
 });
 
-
-document.addEventListener("DOMContentLoaded", function () {
-  const repeaterContainerSidebar = document.querySelector('.repeater-container-sidebar');
-
-  // Array of image URLs, album titles, and artists
-  const imageSources = [
-    'tyh.jpg',
-    'vhareinu.jpg',
-    'yirei shomayim.jpg',
-    'nafshi.jpg',
-    'vzakeini.jpg',
-    'abba.jpg'
-  ];
-
-  const albumTitles = [
-    'Thank You Hashem',
-    'Vhareinu',
-    'Yirei Shomayim',
-    'Nafshi',
-    'Vzakeini',
-    'Abba'
-  ];
-
-  const artists = [
-    'Song • Joey Newcomb, Moshe Storch',
-    'Song • Shlomo Yehuda Rechnitz',
-    'Song • Shmueli Ungar',
-    'Song • Ishey Ribo, Motty Shteinmetz',
-    'Song • Benny Friedman, Baruch Levine',
-    'Song • Avraham Fried, Ari Hill'
-  ];
-
-  // Create containers dynamically with individual image sources, titles, and artists
-  for (let i = 0; i < 6; i++) {
-    const repeaterItem = document.createElement('div');
-    repeaterItem.classList.add('repeater-sidebar-item');
-    repeaterItem.innerHTML = `
-<div class="repeater-item">
-<img src="${imageSources[i]}" alt="Repeater Image">
-<div class="repeater-text">
-  <div class="text-row">${albumTitles[i]}</div>
-  <div class="text-row">
-${artists[i]}</div>
-</div>
-</div>
-`;
-    repeaterContainerSidebar.appendChild(repeaterItem);
-  }
-});
 
 document.addEventListener("DOMContentLoaded", function () {
 const repeaterRow = document.getElementById('friedrepeater');
@@ -1538,3 +1238,136 @@ function closeNav1() {
   document.getElementById("myNav1").style.width = "0%";
 }
 
+
+$(document).ready(function() {
+  // Initially hide "Songs" option
+  $('.category-option1:contains("Songs")').addClass('hidden1');
+  
+  $('.category-title1').click(function() {
+      $(this).toggleClass('active1');
+      $('.category-options1').toggleClass('active1');
+      $('.category-selector1').toggleClass('expanded1');
+  });
+  
+  $('.category-option1').click(function() {
+      var htmlContent = $(this).html().trim(); // Get HTML content including the icon
+      $('#selected-category1').html(htmlContent); // Set HTML content to include the icon
+      $('.category-title1').removeClass('active1');
+      $('.category-options1').removeClass('active1');
+      $('.category-selector1').removeClass('expanded1');
+      $('.category-option1').removeClass('hidden1'); // Show all options
+      $(this).addClass('hidden1'); // Hide the selected option
+  });
+});
+
+  function updateSelectedFeature() {
+      var hash = window.location.hash;
+
+      // Remove the selected class from all links
+      $('a').removeClass('selected1');
+
+      if (hash === '#services') {
+          $('.services-link1').addClass('selected1');
+          $('.category-option1').removeClass('hidden1');
+          $('.category-option1:contains("Menu")').addClass('hidden1');
+        } else if (hash === '#playlists/liked') {
+          $('.likes-link1').addClass('selected1');
+          $('.category-option1').removeClass('hidden1');
+          $('.category-option1:contains("Menu")').addClass('hidden1');
+        } else if (hash === '#queue') {
+          $('.queue-link1').addClass('selected1');
+          $('.category-option1').removeClass('hidden1');
+          $('.category-option1:contains("Menu")').addClass('hidden1');
+        } else if (hash === '#devices') {
+          $('.devises-link1').addClass('selected1');
+          $('.category-option1').removeClass('hidden1');
+          $('.category-option1:contains("Menu")').addClass('hidden1');
+        } else if (hash === '#') {
+          $('.home-link1').addClass('selected1');
+          $('.category-option1').removeClass('hidden1');
+          $('.category-option1:contains("Menu")').addClass('hidden1');
+        } else if (hash === '#ezj-special') {
+          $('.ezjspecial-link1').addClass('selected1');
+          $('.category-option1').removeClass('hidden1');
+          $('.category-option1:contains("Menu")').addClass('hidden1');
+      } else {
+          $('.home-link1').addClass('selected1');
+          $('.category-option1').removeClass('hidden1');
+          $('.category-option1:contains("Song")').addClass('hidden1');
+      }
+  }
+
+    // Call the function on page load
+    updateSelectedFeature();
+
+    // Call the function on hash change
+    $(window).on('hashchange', function() {
+        updateSelectedFeature();
+    });
+
+
+const playPauseButton = document.querySelector('.play-pause-button');
+const prevButton = document.querySelector('.prev-button');
+const nextButton = document.querySelector('.next-button');
+const timeBar = document.querySelector('.time-bar');
+const currentTimeElement = document.querySelector('.current-time');
+const durationTimeElement = document.querySelector('.duration-time');
+const audio = document.getElementById('audio');
+
+let isPlaying = false;
+
+audio.addEventListener('loadedmetadata', () => {
+    durationTimeElement.textContent = formatTime(audio.duration);
+    timeBar.max = audio.duration;
+});
+
+audio.addEventListener('timeupdate', () => {
+    currentTimeElement.textContent = formatTime(audio.currentTime);
+    timeBar.value = audio.currentTime;
+});
+
+function togglePlayPause() {
+    isPlaying = !isPlaying;
+    const playPauseIcon = playPauseButton.querySelector('i');
+    if (isPlaying) {
+        playPauseIcon.classList.remove('fa-play-circle');
+        playPauseIcon.classList.add('fa-pause-circle');
+        audio.play();
+    } else {
+        playPauseIcon.classList.remove('fa-pause-circle');
+        playPauseIcon.classList.add('fa-play-circle');
+        audio.pause();
+    }
+}
+
+function updateTimeBar() {
+    const progress = (audio.currentTime / audio.duration) * 100;
+    timeBar.value = progress;
+}
+
+function formatTime(seconds) {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = Math.floor(seconds % 60);
+    return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+}
+
+playPauseButton.addEventListener('click', togglePlayPause);
+prevButton.addEventListener('click', () => {
+    // Logic for previous track
+    // Adjust accordingly if you have a playlist
+});
+nextButton.addEventListener('click', () => {
+    // Logic for next track
+    // Adjust accordingly if you have a playlist
+});
+timeBar.addEventListener('input', () => {
+    audio.currentTime = timeBar.value;
+    updateTimeBar();
+});
+
+// Update time bar and timestamp display periodically
+setInterval(() => {
+    if (isPlaying) {
+        updateTimeBar();
+    }
+}, 1000);
