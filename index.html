@@ -4,125 +4,104 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EZJ Music</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Round">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,-25">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
     <link rel="icon" href="Favicon.svg" type="image/x-icon">
-    <link rel="stylesheet" href="https://ezjmusic.github.io/style.css">
+    <link rel="stylesheet" href="style.css">
   </head>
 <body>
   <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">
   <div div id="myNav" class="overlaymessage">
     <div class="video-box">
-      <video autoplay loop muted>
-          <source src="https://ezjmusic.github.io/untitled(6).mp4" type="video/mp4">
-          Your browser does not support the video tag.
-      </video>
+      <div class="video-box">
+        <video id="mainVideo" autoplay muted loop>
+            <source src="untitled(6).mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+    
   </div>
   </div> 
 </a> 
   <div class="container">
     <div class="columns">
-        <aside class="left-column" id="leftColumn">
-          <div class="top-row">
-            <label for="toggleSlider" class="clickable">
-              <div class="label song-label" id="songLabel">Song</div>
-            </label>
-            <label for="toggleSlider" class="clickable">
-              <div class="label music-label" id="musicLabel">Music</div>
-            </label>
-            <label class="switch">
-              <input type="checkbox" id="toggleSlider">
-              <span class="slider" id="customSlider"></span>
-            </label>
+          <div class="sidebar1">
+              <ul>
+                <div class="category-selector1">
+                  <div class="category-title1">
+                      <span id="selected-category1" style="display: flex; align-items: flex-end;"><span class="catopt material-symbols-rounded">music_note</span>Songs</span>
+                      <span class="material-icons-round arrow1">arrow_drop_down</span>
+                  </div>
+                  <div class="category-options1">
+                      <div class="category-option1"><span class="catopt material-symbols-rounded">graphic_eq</span>Music</div>
+                      <div class="category-option1"><span class="catopt material-symbols-rounded">menu_book</span>Stories</div>
+                      <div class="category-option1"><span class="catopt material-symbols-rounded">podcasts</span>Podcasts</div>
+                      <div class="category-option1"><span class="catopt material-symbols-rounded">music_note</span>Songs</div>
+                  </div>
+              </div>
+                  <li><a href="#" class="home-link1 selected1"><span class="icon1 material-symbols-rounded">home</span> Home</a></li>
+                  <li><a href="#services" class="services-link1"><span class="icon1 material-icons-round">menu</span> Services</a></li>
+                  <li><a href="#playlists/liked" class="likes-link1"><span class="icon1 material-icons-round">favorite</span> Liked</a></li>
+                  <li><a href="#queue" class="queue-link1"><span class="icon1 material-icons-round">queue_music</span> Queue</a></li>
+                  <li><a href="#devices" class="devises-link1"><span class="icon1 icon material-icons-round">devices</span> Devices</a></li>
+                  <li><a href="#ezj-special" class="ezjspecial-link1"><span class="icon1 material-icons-round">bolt</span> EZJ Special</a></li>
+              </ul>
           </div>
-          <div class="middle-row">
-            <div class="icon-container home-icon-container">
-                <a href="#" style="display: flex;align-items: center;">
-                    <img src="https://img.icons8.com/fluency-systems-filled/200/FFFFFF/home.png" alt="Home">
-                    <span class="icon-text">Home</span>
-                </a>
-            </div>
-            <div class="icon-container ezj-services-icon-container">
-              <a href="#services" style="display: flex;align-items: center;">
-                <img src="https://img.icons8.com/ios-filled/512/FFFFFF/menu--v6.png" alt="EZJ Services">
-                    <span class="icon-text">EZJM Services</span>
-                </a>
-            </div>
-        </div> 
-          <div class="bottom-row">
-            <div class="icon-background">
-              <div class="icon-container" onclick="toggleLeftColumn()">
-                <img width="50" height="50" src="image (4).png" alt="Library" />
-                <span class="icon-text">Library</span>
+          <div id="myNav1" class="overlay">
+          <a href="javascript:void(0)" class="closebtn" onclick="closeNav1()" style="position: absolute;
+          top: 10px;
+          right: 20px;
+          font-size: 40px;
+          z-index: 2000;
+          color: #fff;
+          ">x</a>        
+            <div class="overlay-content">
+             <div class="sidebar1ov">
+              <div class="category-selector1ov">
+                  <div class="category-title1">
+                      <span id="selected-category1">Song</span>
+                      <span class="material-icons-round arrow1">arrow_drop_down</span>
+                  </div>
+                  <div class="category-options1">
+                      <div class="category-option1">Music</div>
+                      <div class="category-option1">Stories</div>
+                      <div class="category-option1">Podcasts</div>
+                      <div class="category-option1">Song</div>
+                  </div>
               </div>
-            </div>
-            <div class="repeater-container-sidebar">
-            </div>
+              <ul>
+                  <li><a href="#" class="home-link1 selected1"><span class="icon1 material-symbols-rounded">home</span> Home</a></li>
+                  <li><a href="#services" class="services-link1"><span class="icon1 material-icons-round">menu</span> Services</a></li>
+                  <li><a href="#playlists/liked" class="likes-link1"><span class="icon1 material-symbols-outlined">favorite</span> Liked</a></li>
+                  <li><a href="#queue" class="queue-link1"><span class="icon1 material-symbols-outlined">queue</span> Queue</a></li>
+                  <li><a href="#bluetooth" class="devises-link1"><span class="icon1 icon material-icons-round">devices</span> Devices</a></li>
+              </ul>
           </div>
-          <div id="image-row"></div>
-        </aside>
-
-        <div id="myNav1" class="overlay1">
-          <a href="javascript:void(0)" class="closebtn" onclick="closeNav1()">&times;</a>
-          <aside class="left-column1" id="leftColumn1">
-            <div class="top-row1">
-              <label for="toggleSlider" class="clickable">
-                <div class="label song-label" id="songLabel">Song</div>
-              </label>
-              <label for="toggleSlider" class="clickable">
-                <div class="label music-label" id="musicLabel">Music</div>
-              </label>
-              <label class="switch">
-                <input type="checkbox" id="toggleSlider">
-                <span class="slider" id="customSlider"></span>
-              </label>
             </div>
-            <div class="middle-row1">
-              <div class="icon-container1 home-icon-container">
-                  <a href="#" style="display: flex;align-items: center;">
-                      <img src="https://img.icons8.com/fluency-systems-filled/200/FFFFFF/home.png" alt="Home">
-                      <span class="icon-text">Home</span>
-                  </a>
-              </div>
-              <div class="icon-container1 ezj-services-icon-container">
-                <a href="#services" style="display: flex;align-items: center;">
-                  <img src="https://img.icons8.com/ios-filled/512/FFFFFF/menu--v6.png" alt="EZJ Services">
-                      <span class="icon-text">EZJM Services</span>
-                  </a>
-              </div>
-          </div> 
-            <div class="bottom-row1">
-              <div class="icon-background1">
-                <div class="icon-container1" onclick="toggleLeftColumn()">
-                  <img width="50" height="50" src="image (4).png" alt="Library" />
-                  <span class="icon-text">Library</span>
-                </div>
-              </div>
-              <div class="repeater-container-sidebar1">
-              </div>
-            </div>
-            <div id="image-row"></div>
-        </div>
-        <div class="separator"></div>
+          </div>  
       <div class="right-column">
         <header>
           <div class="Sidebar-button" onclick="openNav1()">
-          <img width="38" height="38" src="icons8-forward-100.png" alt="Sidebar"/>
-          </div>
+            <img width="40" height="40" src="icons8-forward-100.png" alt="Sidebar" id="toggle-sidebar-button"/>
+        </div>
           <div class="search-bar-container">
             <form class="search-form">
               <div class="search-icon-container">
-                <img width="30" height="30" src="https://img.icons8.com/ios-glyphs/512/00008B/search--v1.png"
-                  alt="search" />
+                <img width="30" height="30" src="https://img.icons8.com/ios-glyphs/512/3333ff/search--v1.png" alt="search" />
               </div>
               <input type="search" id="search-input" placeholder="Search" autocomplete="off">
               <div class="voice-icon-container" id="voice-icon-container">
-                <img width="30" height="25" src="https://img.icons8.com/ios-glyphs/512/00008B/microphone.png"
+                <img width="30" height="25" src="https://img.icons8.com/ios-glyphs/512/3333ff/microphone.png"
                   alt="microphone"/>
               </div>
             </form>
           </div>
           <div id="dropdown-button">
-               <img width="30" height="30" src="https://img.icons8.com/fluency-systems-regular/512/00008B/user--v1.png"
+               <img width="30" height="30" src="https://img.icons8.com/fluency-systems-regular/512/3333ff/user--v1.png"
                alt="account" />
           </div>
           <div class="dropdown-content" id="dropdown-content">
@@ -213,7 +192,7 @@
    <div id="streams/Chasuna-2nd-Dance" class="page">
     <div id="album-container">
       <div id="container-streams">
-        <img id="album-cover" src="seconddance.png" alt="Album Cover">
+        <img id="album-cover" src="Seconddance.png" alt="Album Cover">
       </div>
      <div id="album-text">
         <h1 id="album-title">Chasuna 2nd Dance</h1>
@@ -372,18 +351,21 @@
           </div>
         </div>
       <div id="queue" class="page">
-          <h3 style="z-index: 4; position: relative; padding-bottom: 10px;">Now Playing</h3>
-          <div class="container-item-upnext" style="width: 95%; border-radius: 5px; margin-left: 5px;">
-            <img class="upnextimg" src="tyh.jpg" alt="Album Artwork">
-            <div class="upnext-text-content">
-              <div class="upnext-album-title">Thank You Hashem</div>
-              <div class="upnext-artist">Joey Newcomb, Moshe Storch</div>
-            </div>
-          </div>
-          <h3 style="z-index: 4; position: relative; padding-bottom: 10px;">Upcoming Songs</h3>
-          <div class="upnext-repeater">
-          </div>
+        <h3 class="queuetxt">Now Playing</h3>
+<div class="container-item-upnext" style="width: 95%; border-radius: 5px; margin: 21px 18px;">
+  <img class="upnextimg" id="upnextimg" src="tyh.jpg" alt="Album Artwork">
+  <div class="upnext-text-content">
+    <div class="upnext-album-title" id="upnext-album-title">Thank You Hashem</div>
+    <div class="upnext-artist" id="upnext-artist" style="max-width: 22vw;">Joey Newcomb, Moshe Storch</div>
+  </div>
+</div>
+        <h3 class="queuetxt">Playing Soon</h3>
+        <h1 class="queuetxtntavalible">Queue Is Not Available At The Current Time</h1>
       </div>
+      <div id="devices" class="page">
+<h2 class="queuetxt">Your Devices</h2>
+<div class="devices-repeater" id="devices-repeater"></div>
+</div>
       <div id="Settings" class="page">
         <h2 style="z-index: 4; position: relative;">Account Settings</h2>
         <h3 style="z-index: 4; position: relative; padding-bottom: 50px;">User Settings</h3>
@@ -440,7 +422,7 @@
 <div id="player">
   <div id="playing-details">
     <div class="image-container">
-        <img id="image-artwork" src="tyh.jpg" alt="Image Artwork">
+        <img id="image-artwork" src="tyh.JPG" alt="Image Artwork">
         <div class="uparrow-overlay">
             <img src="https://img.icons8.com/ios-filled/512/FFFFFF/forward--v1.png" alt="Up Arrow" id="uparrow-button">
         </div>
@@ -450,44 +432,102 @@
         <div class="text-row-player">Joey Newcomb, Moshe Storch</div>
     </div>
 </div>
+
   <audio id="audioPlayer" controls>
     <source id="audioSource" src="" type="audio/mpeg">
     Your browser does not support the audio element.
   </audio>  
-    <div class="extrabuttons" id="extrabuttons"> 
-      <button onclick="openModal()" style="background-color: black; border: none; color: white; padding: 4px;">
-        <img width="20" height="20" src="https://img.icons8.com/FFFFFF/ios-glyphs/512/bluetooth.png" alt="Bluetooth"/>
-      </button>  
-      <div id="myModal" class="modal">
-        <div class="modal-content">
-          <span class="close" onclick="closeModal()">&times;</span>
-          <h2>Bluetooth Devices</h2>
-          <ul id="deviceList"></ul>
-        </div>
-      </div>
-      <a href="#queue">
-      <button style="background-color: black; border: none; color: white; padding: 4px; width: 32px">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" style="width: 20px;">
-          <rect width="256" height="256" fill="none"/>
-          <line x1="40" y1="64" x2="216" y2="64" fill="none" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/>
-          <line x1="40" y1="128" x2="160" y2="128" fill="none" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/>
-          <line x1="40" y1="192" x2="112" y2="192" fill="none" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/>
-          <circle cx="176" cy="192" r="24" fill="none" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/>
-          <polyline points="200 192 200 112 240 124" fill="none" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/>
-        </svg>      
-      </a>
-        <div class="volume-control">
-          <button id="volumeButton" onmouseover="showVolumeSlider()" onmouseout="hideVolumeSlider()" oninput="changeVolume(this.value)" style="display: flex; align-items: center; background-color: black; border: none; color: white; padding: 4px;">
-            <img id="volumeIcon" width="20" height="20" src="https://img.icons8.com/FFFFFF/material-rounded/512/medium-volume.png" alt="Volume">
-            <input type="range" id="volumeRange" class="volume-slider" min="0" max="100" step="1" value="50" style="display: none; position: static; border-radius: 5px; height: 5px; background: linear-gradient(to right, darkblue 0%, darkblue 50%, lightgrey 50%, lightgrey 100%);">
-          </button>
+  <div class="extrabuttons" id="extrabuttons">
+    <div class="tooltip-container">
+      <button onclick="" style="background-color: black; border: none; color: #ccc; padding: 2px 10px; cursor: pointer; display: flex;">
+        <img width="20" height="20" src="https://img.icons8.com/ios-glyphs/512/cccccc/micro.png" alt="micro"/>
       </button>
-      <button onclick="toggleFullScreen()" style="background-color: black; border: none; color: white; padding: 4px;">
-        <img id="fullScreenIcon" width="20" height="20" src="https://img.icons8.com/FFFFFF/ios-glyphs/512/resize-diagonal.png" alt="Full Screen"/>
-      </button>     
-    </div>    
+      <span class="tooltip">Lyrics</span>
+    </div>
+
+    <div class="tooltip-container">
+      <button onclick="connectToBluetoothDevice()" style="background-color: black; border: none; color: #ccc; padding: 4px 10px; cursor: pointer;">
+        <span class="extra material-symbols-rounded">bluetooth</span>
+      </button>
+      <span class="tooltip">Bluetooth</span>
+    </div>
+
+    <div class="tooltip-container">
+      <button id="copyLinkButton" onclick="copyCurrentSongLink()" style="background-color: black; border: none; color: #ccc; padding: 4px 10px; cursor: pointer;">
+        <span class="extra material-symbols-rounded">replace_audio</span>
+      </button>
+      <span class="tooltip">Open Original</span>
+    </div>
+
+    <div class="tooltip-container">
+      <button id="pipButton" style="background-color: black; border: none; color: #ccc; padding: 4px 10px; cursor: pointer;">
+        <span id="pipIcon" class="extra material-symbols-rounded">pip</span>
+      </button>
+      <span class="tooltip">Mini Player</span>
+    </div>
+
+    <div class="tooltip-container">
+      <button onclick="toggleFullScreen()" style="background-color: black; border: none; color: #ccc; padding: 4px 10px; cursor: pointer;">
+        <span id="fullScreenIcon" class="extra material-symbols-rounded">open_in_full</span>
+      </button>
+      <span class="tooltip" id="fullscreenTooltip">Fullscreen</span>
+    </div>
   </div>
+</div>
+
+<script>
+  let pipWindow = null;
+  const player = document.getElementById('player');
+  const pipButton = document.getElementById('pipButton');
+  const pipIcon = document.getElementById('pipIcon');
+
+  pipButton.addEventListener('click', async () => {
+    if (pipWindow) {
+      // Close the PiP window
+      pipWindow.close();
+      pipWindow = null;
+      pipIcon.textContent = 'pip'; // Change icon to indicate PiP is off
+    } else {
+      // Open a new PiP window
+      try {
+        pipWindow = await documentPictureInPicture.requestWindow({
+          width: 240,
+          height: 350,
+          disallowReturnToOpener: false
+        });
+
+        // Add the custom PiP stylesheet
+        const pipCSSLink = document.createElement('link');
+        pipCSSLink.rel = 'stylesheet';
+        pipCSSLink.href = 'pip.css'; // Update this path to your pip.css file
+        pipWindow.document.head.appendChild(pipCSSLink);
+        
+        // Add the external Google Fonts stylesheet
+        const googleFontsLink = document.createElement('link');
+        googleFontsLink.rel = 'stylesheet';
+        googleFontsLink.href = 'https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,-25';
+        pipWindow.document.head.appendChild(googleFontsLink);
+
+        // Clone and move the player element to the PiP window
+        const playerClone = player.cloneNode(true);
+        pipWindow.document.body.appendChild(playerClone);
+        
+        // Change icon to indicate PiP is active
+        pipIcon.textContent = 'close';
+
+        // Handle the PiP window closure
+        pipWindow.addEventListener('unload', () => {
+          pipWindow = null;
+          pipIcon.textContent = 'pip'; // Change icon back to indicate PiP is off
+        });
+      } catch (error) {
+        console.error('Error opening PiP window:', error);
+      }
+    }
+  });
+</script>
 </div> 
-    <script src="script.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
